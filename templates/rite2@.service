@@ -1,0 +1,14 @@
+[Unit]
+Description=MariaDB Service
+After=docker.service
+After=etcd.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker stop mariadb
+ExecStartPre=-/usr/bin/docker rm mariadb
+ExecStartPre=-/usr/bin/docker pull sorentech/rite2
+ExecStart=/usr/bin/docker run --privileged=true -v /data/mariadb:/data/mariadb:rw -p 3306:3306 --name mariadb sorentech/rite2
+ExecStop=/usr/bin/docker stop mariadb
+
+[X-Fleet]

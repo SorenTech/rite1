@@ -1,0 +1,16 @@
+[Unit]
+Description=Registrator Service Discovery Service
+After=docker.service
+After=etcd.service
+
+[Service]
+TimeoutStartSec=0
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill registrator%i
+ExecStartPre=-/usr/bin/docker rm registrator%i
+ExecStartPre=/usr/bin/docker pull gliderlabs/registrator
+ExecStart=/usr/bin/docker run -d --name=registrator --net=host --volume=/var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest etcd://${ETCD_PORT}
+ExecStop=/usr/bin/docker stop registrator%i
+
+[X-Fleet]
+Global=true
