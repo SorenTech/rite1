@@ -11,8 +11,8 @@ EnvironmentFile=/etc/environment
 
 ExecStartPre=-/usr/bin/docker kill %p.%i
 ExecStartPre=-/usr/bin/docker rm %p.%i
-ExecStartPre=/usr/bin/docker pull tarhelypark/nginx-confd-etcd
-ExecStart=/usr/bin/docker run --name %p.%i -p ${COREOS_PUBLIC_IPV4}:80:80 -e NGINX_BACKEND_SERVICE=%i -e NGINX_DEMO_DOMAIN=tarhelypark.hu -e HOST_IP=${COREOS_PUBLIC_IPV4} tarhelypark/nginx-confd-etcd
+ExecStartPre=/usr/bin/docker pull sorentech/nginx-confd-etcd
+ExecStart=/usr/bin/docker run --name %p.%i -p ${COREOS_PUBLIC_IPV4}:80:80 -e NGINX_BACKEND_SERVICE=%i -e NGINX_DEMO_DOMAIN=proxy.harbor.soren.tech -e HOST_IP=${COREOS_PUBLIC_IPV4} sorentech/nginx-confd-etcd
 ExecStop=/usr/bin/docker stop %p.%i
 
 [X-Fleet]
